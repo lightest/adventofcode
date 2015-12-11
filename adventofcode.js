@@ -145,3 +145,55 @@
         console.log(nice);
         return nice;
     };
+
+    //day 6
+    function switchl(c1, c2, mode, grid) {
+        for(var i = c1[0]; i <= c2[0]; i++) {
+            for(var j = c1[1]; j <= c2[1]; j++) {
+                if(mode == -1) { grid[i][j] = !grid[i][j]; } else {
+                    grid[i][j] = mode || false;
+                }
+            }
+        }
+    }
+
+    function generateGrid (m, n) {
+        var grid = [];
+        for(var i = 0; i < m; i++) {
+            if(grid[i] == undefined) { grid[i] = []; }
+            for(var j = 0; j < n; j++) {
+                grid[i][j] = false;
+            }
+        }
+
+        return grid;
+    };
+
+    function solveday6 (input) {
+        var grid = generateGrid(1000, 1000);
+        for(var i = 0; i < input.length; i++) {
+            var corners = input[i].match(/\d+,\d+/g);
+            var c1 = corners[0].split(',');
+            var c2 = corners[1].split(',');
+            c1[0] = parseInt(c1[0]);
+            c1[1] = parseInt(c1[1]);
+            c2[0] = parseInt(c2[0]);
+            c2[1] = parseInt(c2[1]);
+            var mode = input[i].match(/turn on|turn off|toggle/);
+            mode = mode == 'turn on' ? true : mode == 'turn off' ? false : -1;
+            switchl(c1, c2, mode, grid);
+        }
+        return lit(grid);
+    };
+
+    function lit(grid) {
+        var lita = 0;
+         for(var i = 0; i < grid.length; i++) {
+            for(var j = 0; j < grid[i].length; j++) {
+                if(grid[i][j]) {
+                    lita++;
+                }
+            }
+        }
+        return lita;
+    }
