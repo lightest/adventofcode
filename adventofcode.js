@@ -155,7 +155,15 @@
                 }
             }
         }
-    }
+    };
+
+    function switchl2(c1, c2, mode, grid) {
+        for(var i = c1[0]; i <= c2[0]; i++) {
+            for(var j = c1[1]; j <= c2[1]; j++) {
+                grid[i][j] = Math.max(0, grid[i][j] + mode);
+            }
+        }
+    };
 
     function generateGrid (m, n) {
         var grid = [];
@@ -186,6 +194,23 @@
         return lit(grid);
     };
 
+    function solveday6_2(input) {
+        var grid = generateGrid(1000, 1000);
+        for(var i = 0; i < input.length; i++) {
+            var corners = input[i].match(/\d+,\d+/g);
+            var c1 = corners[0].split(',');
+            var c2 = corners[1].split(',');
+            c1[0] = parseInt(c1[0]);
+            c1[1] = parseInt(c1[1]);
+            c2[0] = parseInt(c2[0]);
+            c2[1] = parseInt(c2[1]);
+            var mode = input[i].match(/turn on|turn off|toggle/);
+            mode = mode == 'turn on' ? 1 : mode == 'turn off' ? -1 : 2;
+            switchl2(c1, c2, mode, grid);
+        }
+        return totalbrightness(grid);
+    };
+
     function lit(grid) {
         var lita = 0;
          for(var i = 0; i < grid.length; i++) {
@@ -197,3 +222,13 @@
         }
         return lita;
     }
+
+    function totalbrightness (grid) {
+        var total = 0;
+        for(var i = 0; i < grid.length; i++) {
+            for(var j = 0; j < grid[i].length; j++) {
+                total += grid[i][j];
+            }
+        }
+        return total;
+    };
