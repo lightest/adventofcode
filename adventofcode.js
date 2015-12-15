@@ -232,3 +232,77 @@
         }
         return total;
     };
+
+
+    //day 7
+    function not16(val) {
+        return ~(val << 16) >> 16;
+    };
+
+    function buildWires (input) {
+        var wires = {};
+        for(var i = input.length; --i >= 0;) {
+            var instruction = input[i].split(' -> ');
+            wires[instruction[1]] = {
+                input: instruction[0],
+                cached: null
+            };
+        }
+        return wires;
+    };
+
+
+    function buildCircuit (input) {
+        var wires = buildWires(input);
+
+        function resolve (wire) {
+            if(wire.cached != null) {
+                console.log('wire', wire, 'resolved to', wire.cached);
+                return wire.cached;
+            }
+            var result = null;
+            if(!Number.isNaN(parseInt(wire.input))) {
+                result = parseInt(wire.input);
+                console.log('wire', wire, 'resolved to', result);
+                wire.cached = result;
+                return result;
+            }
+            
+            var operation = wire.input.match(/LSHIFT|RSHIFT|AND|OR|NOT/);
+            operation = operation != null ? operation[0] : operation;
+            var dependency = wire.input.split(operation);
+            var resolved = [];
+            for(var i in dependency) {
+                if(dependency[i] != '') {
+                    if(!Number.isNaN(parseInt(dependency[i]))) {
+                        resolved.push(parseInt(dependency[i]));
+                    } else {
+                        var unresolved = wires[dependency[i].trim()];
+                        resolved.push(resolve(unresolved));
+                    }
+                }
+            }
+            switch(operation) {
+                case 'NOT':
+                    result = not16(resolved[0]);
+                break;
+                case 'LSHIFT':
+                    result = resolved[0] >> resolved[1];
+                break;
+                case 'RSHIFT':
+                    result = resolved[0] << resolved[1];
+                break;
+                case 'AND':
+                    result = resolved[0] & resolved[1];
+                break;
+                case 'OR':
+                    result = resolved[0] | resolved[1];
+                break;
+            }
+            wire.cached = result;
+            console.log('wire', wire, 'resolved to', result);
+            return result;
+        };
+
+        return resolve(wires['a']);
+    };
