@@ -307,4 +307,19 @@
     };
 
     //day8
-    
+    function charsInMemory (str) {
+        if(!str) {return 0;}
+        var noescaped = str.replace(/(\\\\)|(\\x\w{2})|(\\")/ig, '0');
+        return noescaped.length - 2; //minus two double quotes
+    };
+
+    function totalCharsAmount (input) {
+        var charsOfCode = 0;
+        var charsInMem = 0;
+        for(var i = input.length; --i >= 0;) {
+            charsOfCode += input[i].length;
+            charsInMem += charsInMemory(input[i]);
+        }
+
+        return charsOfCode - charsInMem;
+    };
