@@ -323,3 +323,20 @@
 
         return charsOfCode - charsInMem;
     };
+
+    //day8 part2
+    function charsEncoded (str) {
+        var encoded = str.replace(/\\/ig, '\\\\').replace(/"/ig, '\\"')
+        return encoded.length + 2;
+    };
+
+    function totalCharsAmount2 (input) {
+        var charsOfCode = 0;
+        var charsEncodedAmount = 0;
+        for(var i = input.length; --i >= 0;) {
+            charsOfCode += input[i].length;
+            charsEncodedAmount += charsEncoded(input[i]);
+        }
+
+        return charsEncodedAmount - charsOfCode;
+    };
