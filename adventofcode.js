@@ -52,11 +52,11 @@
         return visitedHouses.length;
     };
 
-    //day4 part1
+    //day4 part1/part2
     var md5 = require('md5');
     function checkHash (hash) {
-        var start = hash.substr(0,5);
-        if(start == '00000') { return true; }
+        var start = hash.substr(0,5);           //replace 5 with 6 for p2
+        if(start == '00000') { return true; }   //add onre more 0 for p2
         return false;
     }
 
