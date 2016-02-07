@@ -1,3 +1,32 @@
+    //day2
+    function elves1(papersize) {
+        var paperrequest = papersize.split(',');
+        var area = 0;
+        for(var i = 0; i < paperrequest.length; i++) {
+            var dimensions = paperrequest[i].split('x');
+            for(var j = 0; j < dimensions.length; j++) { dimensions[j] = parseInt(dimensions[j]); }
+            dimensions.sort(function(a,b) { if(a<b){return -1;}else {return 1;} });
+            area += 2*(dimensions[0]*dimensions[1]+dimensions[1]*dimensions[2]+dimensions[2]*dimensions[0]);
+            var slack = dimensions[0]*dimensions[1];
+            area += slack;
+        }
+        return area;
+    }
+
+    function elves2(ribbonsize) {
+        var ribbonrequest = ribbonsize.split(',');
+        var ribbon_length = 0;
+        for(var i = 0; i < ribbonrequest.length; i++) {
+            var dimensions = ribbonrequest[i].split('x');
+            for(var j = 0; j < dimensions.length; j++) { dimensions[j] = parseInt(dimensions[j]); }
+            dimensions.sort(function(a,b) { if(a<b){return -1;}else {return 1;} });
+            ribbon_length += 2*(dimensions[0] + dimensions[1]);
+            var bow = dimensions[0]*dimensions[1]*dimensions[2];
+            ribbon_length += bow;
+        }
+        return ribbon_length;
+    }
+
     //day3 part1
     function checkIfVisited(location, visited) {
         for(var i = 0; i < visited.length; i++) {
